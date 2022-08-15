@@ -1,0 +1,177 @@
+# Handling date-time data with `lubridate`
+
+```{r,include=F}
+library(lubridate)
+```
+
+Date-time data can be complex to handle in R. Classic R commands for date-times are generally unintuitive and vary depending on the date-time object being used. the `lubridate` package makes it easier to handle date-times in R and handle many tasks classic R functions cannot handle. 
+
+We will cover some useful commands within the package but do consult the `lubridate` cheat sheet below for a series of useful commands. 
+
+[Lubridate cheat sheet]("https://rawgit.com/rstudio/cheatsheets/main/lubridate.pdf")
+
+## Creating date/times
+
+There are three types of date/time data that refer to an instant in time:
+
+- A *date*. Tibbles print this as `<date>`
+- A *time* within a day. Tibbles print this as `<time>`
+- A *date-time* is a date plus a time: it uniquely identifies an instant in time. Tibbles print this as `<dttm>`.
+
+You should always use the simplest possible data type for what you need. 
+
+There are three ways you are likely to create a date/time:
+
+- From a string
+- From date/time components
+- From an existing date/time object
+
+These can be created as follows.
+
+### From strings
+We can convert a string to a date/time object using functions within `lubridate`. These functions automatically work out the format once you specify the order of the component. To use them, identify the order in which year, month and day appear in your dates, then arrange "y", "m", and "d" in the same order. This gives you the name of the function you need to call. For example:
+
+```{r,echo=T}
+ymd("2022-08-02")
+mdy("August 2nd, 2022")
+dmy("02-Aug-2022")
+```
+These functions also take unquoted numbers. This is the most concise way to create a single date/time object. 
+
+```{r,echo=T}
+ymd(20220802)
+```
+To create a date-time, add an underscore to the previous functions and one or more of "h", "m" and "s" to the name of the function
+
+```{r,echo=T}
+ymd_hms("2022-08-02 13:05:02")
+mdy_hm("08/02/2022 13:05")
+```
+
+You can also force the creation of a date-time from a date by supplying a timezone
+
+```{r}
+ymd(20220802,tz="UTC")
+```
+
+### From individual components
+
+Instead of a string, you sometimes may have individual components of the date-time spread across multiple columns. Looking at data provided within the `nycflights13` library, we see
+
+```{r,echo=T,message=F}
+library(nycflights13)
+library(tidyverse)
+
+flights %>%
+  select(year,month,day,hour,minute)
+```
+To create a date/time for this data, we can use `make_date()` for dates, or `make_datetime()` for date-times:
+
+```{r,echo=T}
+flights <- flights %>%
+  select(year,month,day,hour,minute) %>%
+  mutate(departure_time=make_datetime(year,month,day,hour,minute))
+```
+
+
+### From existing types
+You may wish to switch between a date-time and a date. This can be done using `as_datetime()` and `as_date()`
+
+```{r,echo=T}
+as_datetime(today())
+as_date(now())
+```
+
+
+## Date-time Components
+Here, we will look at functions which can let us access certain components of a date-time object.
+
+You can obtain certain parts of a date with functions like `year()`, `month()`, `mday()` (day of month), `yday()` (day of year), `hour()`, `minute()` and `second()`.
+
+```{r,echo=T}
+date_time <- ymd_hms("2021-12-25,09:10:25")
+
+year(date_time)
+month(date_time)
+mday(date_time)
+yday(date_time)
+```
+For `month()` and `wday()`, you can set `label=TRUE` to return the abbreviated name of the month or day of the week. Set `abbr=FALSE` to return the full name.
+
+```{r,echo=T}
+month(date_time,label=TRUE)
+wday(date_time,label=TRUE,abbr=FALSE)
+```
+
+We can use `wday()` to see that more flights depart during the week than on the weekend
+
+```{r,echo=T}
+flights %>% 
+  mutate(wday = wday(departure_time, label = TRUE)) %>% 
+  ggplot(aes(x = wday)) +
+    geom_bar()
+```
+
+### Time Spans
+Now we will look at how arithmetic with dates works, including subtraction, addition and division. We will explore the following three classes:
+
+- *durations*, which represent an exact number of seconds
+- *periods*, which represent units like weeks and months
+- *intervals*, which represent a start and end point
+
+### Durations
+We can find out the duration (given in seconds) using the `as.duration()` function as shown below
+
+```{r,echo=T}
+# How old is Craig?
+c_age <- today() - ymd(19910502)
+as.duration(c_age)
+```
+Durations also come with some useful additional functions shown below
+
+```{r,echo=T}
+dseconds(10)
+dminutes(60)
+dhours(30)
+ddays(c(4,15))
+dweeks(1:4)
+dyears(2)
+```
+We can also add and multiply durations
+```{r,echo=T}
+3*dmonths(5)
+dyears(3) + dweeks(14) +dhours(6)
+```
+
+### Periods
+Periods are time spans, but don't have a fixed length in seconds, and work more as "human" times, like days and weeks.
+
+```{r,echo=T}
+today() + days(1)
+```
+Like durations, periods can be constructed using well named constructor functions. 
+
+```{r,echo=T}
+seconds(15)
+minutes(10)
+hours(30)
+days(c(2,5))
+months(2:5)
+weeks(3)
+years(1)
+```
+Like durations, we can add and multiply periods
+
+```{r,echo=T}
+3*(months(4) + days(12))
+days(25) + hours(16) + minutes(12)
+```
+
+### Intervals
+An interval is a duration with a starting point, this makes it precise so you can determine exactly how long it is:
+
+```{r,echo=T}
+next_year <- today() + years(1)
+(today() %--% next_year)/ddays(1)
+```
+To find out how many periods fall into an interval, you need to use integer division `%/%`

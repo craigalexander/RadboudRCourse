@@ -1,0 +1,74 @@
+--- 
+title: "Visualising Data using R"
+author: "Craig Alexander, Eilidh Jack & Marnie Low"
+site: bookdown::bookdown_site
+output:
+  bookdown::gitbook:
+    lib_dir: assets
+    split_by: section
+    config:
+      toolbar:
+        position: static
+documentclass: book
+bibliography: [book.bib, packages.bib]
+biblio-style: apalike
+link-citations: yes
+github-repo: rstudio/bookdown-demo
+description: "This short introductory module provides an introduction to using R and how to visualise data within R."
+---
+
+# Overview
+The R programming language provides researchers with access to a large range of fully customisable data visualisation options, which are typically not available in point-and-click software. These visualisations are not only visually appealing, but can increase transparency about the distribution of the underlying data, rather than relying on commonly used visualisations of aggregations.
+
+In this introductory section of our course, we will provide a practical introduction to using R, particularly in how to visualise data which you will use throughout the course. First, we will explain the rationale behind using R for data visualisation using the `ggplot2` package. This package will allow us to begin with common plotting outputs such as histograms and boxplots, and extend to more complex structures used within spatial data visualisation. 
+
+## The `ggplot2` package
+There are a host of options to data visualisation in R. In this course, we will mainly use the `ggplot2` package, which forms part of the larger `tidyverse` collection of packages which provide functions for efficient data management in R. We will also use eother packages within `tidyverse` in the course. 
+
+A grammar of graphics is a standardised way to describe the components of a graphic. `ggplot2` uses a layered grammar of graphics, in which plots are bulit up in a series of layers. It may be helpful to think about any picture as having multiple elements that sit semi-transparently over each other. 
+Figure \ref{fig:layerplot} shows the evolution of a sumple scatterplot using this layered approach. First, the plot space is built (layer 1); the variables are specified (layer 2); the type of visualisation that is desired for these variables is specified (layer 3) - in this case `geom_point()`is called to visualise individual data points; a second `geom` layer is added to include a line of best fit (layer 4); the axis labels are editied for readability (layer 5) and finally, a theme is applied to change the overall appearance of the plot (layer 6).
+
+```{r layerplot, echo=F, eval=TRUE, message=FALSE, out.width="80%", fig.align="center",fig.pos="h",warning=F, fig.cap="\\label{fig:layer} Evolution of a layered plot."}
+library(MASS)
+library(tidyverse)
+library(gridExtra)
+
+sample <- mvrnorm(100,mu=c(65,170),Sigma=matrix(c(40,25,25,40),ncol=2))
+sample_data <- data_frame(x=sample[,1],y=sample[,2])
+p1 <- ggplot(sample_data) + labs(title="Layer 1")
+p2 <- ggplot(sample_data,aes(x=x,y=y)) + labs(title="Layer 2")
+p3 <- ggplot(sample_data,aes(x=x,y=y)) + labs(title="Layer 3") + geom_point()
+p4 <- ggplot(sample_data,aes(x=x,y=y)) + labs(title="Layer 4") + geom_point() + geom_smooth(method="lm")
+p5 <- ggplot(sample_data,aes(x=x,y=y)) + labs(title="Layer 5") + geom_point() + geom_smooth(method="lm") + xlab("Weight (kg)") + ylab("Height (cm)")
+p6 <- ggplot(sample_data,aes(x=x,y=y)) + labs(title="Layer 6") + geom_point() + geom_smooth(method="lm") + xlab("Weight (kg)") + ylab("Height (cm)") +theme_minimal()
+
+grid.arrange(p1,p2,p3,p4,p5,p6,nrow=2)
+```
+Each layer is independent and individually customisable. For example, the size, colour and position of each component can be adjusted. The use of layers makes it easy to build up complex plots step-by-step, and to adapt or extend plots from existing code. 
+
+
+## Data
+In this course, we will use some datasets for analysis. You can download these from the following repository:
+
+[Link to repository](https://github.com/craigalexander/IntroToRDataVis/tree/main/Data)
+
+## Libraries
+Throughout this week, we will use some libraries within R for modelling and data visualisation. You will need the following libraries installed on your version of R:
+
+- `tidyverse`
+- `lubridate`
+- `magrittr`
+- `MASS`
+- `ggmap`
+- `plotly`
+- `mgcv`
+- `sp`
+- `splines`
+- `gratia`
+- `spdep`
+- `sf`
+- `CARBayes`
+- `CARBayesST`
+- `RColorBrewer`
+- `gridExtra`
+- `leaflet`
