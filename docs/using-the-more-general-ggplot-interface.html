@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>4.2 Using the more general ggplot interface | Visualising Data using R</title>
+  <meta name="description" content="This short introductory module provides an introduction to using R and how to visualise data within R." />
+  <meta name="generator" content="bookdown 0.25 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="4.2 Using the more general ggplot interface | Visualising Data using R" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="This short introductory module provides an introduction to using R and how to visualise data within R." />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="4.2 Using the more general ggplot interface | Visualising Data using R" />
+  
+  <meta name="twitter:description" content="This short introductory module provides an introduction to using R and how to visualise data within R." />
+  
+
+<meta name="author" content="Craig Alexander, Eilidh Jack &amp; Marnie Low" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="ggplot-terms.html"/>
+<link rel="next" href="modifying-plots.html"/>
+<script src="assets/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="assets/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="assets/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="assets/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="assets/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="assets/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="assets/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="assets/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="assets/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="assets/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="assets/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">A Minimal Book Example</a></li>
+
+<li class="divider"></li>
+<li><a href="index.html#overview" id="toc-overview"><span class="toc-section-number">1</span> Overview<span></span></a>
+<ul>
+<li><a href="the-ggplot2-package.html#the-ggplot2-package" id="toc-the-ggplot2-package"><span class="toc-section-number">1.1</span> The <code>ggplot2</code> package<span></span></a></li>
+<li><a href="data.html#data" id="toc-data"><span class="toc-section-number">1.2</span> Data<span></span></a></li>
+<li><a href="libraries.html#libraries" id="toc-libraries"><span class="toc-section-number">1.3</span> Libraries<span></span></a></li>
+</ul></li>
+<li><a href="intro.html#intro" id="toc-intro"><span class="toc-section-number">2</span> Getting Started<span></span></a>
+<ul>
+<li><a href="setting-up-r.html#setting-up-r" id="toc-setting-up-r"><span class="toc-section-number">2.1</span> Setting up R<span></span></a>
+<ul>
+<li><a href="setting-up-r.html#downloading-and-installing-r-for-windows" id="toc-downloading-and-installing-r-for-windows"><span class="toc-section-number">2.1.1</span> Downloading and installing R for Windows<span></span></a></li>
+<li><a href="setting-up-r.html#downloading-and-installing-r-for-mac" id="toc-downloading-and-installing-r-for-mac"><span class="toc-section-number">2.1.2</span> Downloading and installing R for Mac<span></span></a></li>
+</ul></li>
+<li><a href="rstudio.html#rstudio" id="toc-rstudio"><span class="toc-section-number">2.2</span> RStudio<span></span></a>
+<ul>
+<li><a href="rstudio.html#installing-rstudio-for-windowsmac" id="toc-installing-rstudio-for-windowsmac"><span class="toc-section-number">2.2.1</span> Installing RStudio for Windows/Mac<span></span></a></li>
+</ul></li>
+<li><a href="r-packages.html#r-packages" id="toc-r-packages"><span class="toc-section-number">2.3</span> R packages<span></span></a></li>
+</ul></li>
+<li><a href="efficient-data-management-in-r.html#efficient-data-management-in-r" id="toc-efficient-data-management-in-r"><span class="toc-section-number">3</span> Efficient Data Management in R<span></span></a>
+<ul>
+<li><a href="tidyverse.html#tidyverse" id="toc-tidyverse"><span class="toc-section-number">3.1</span> Tidyverse<span></span></a></li>
+<li><a href="pipelines.html#pipelines" id="toc-pipelines"><span class="toc-section-number">3.2</span> Pipelines<span></span></a>
+<ul>
+<li><a href="pipelines.html#task" id="toc-task"><span class="toc-section-number">3.2.1</span> Task<span></span></a></li>
+<li><a href="pipelines.html#solution" id="toc-solution"><span class="toc-section-number">3.2.2</span> Solution<span></span></a></li>
+<li><a href="pipelines.html#task-1" id="toc-task-1"><span class="toc-section-number">3.2.3</span> Task<span></span></a></li>
+<li><a href="pipelines.html#answer" id="toc-answer"><span class="toc-section-number">3.2.4</span> Answer<span></span></a></li>
+<li><a href="pipelines.html#additional-resources" id="toc-additional-resources"><span class="toc-section-number">3.2.5</span> Additional Resources<span></span></a></li>
+</ul></li>
+<li><a href="tibbles.html#tibbles" id="toc-tibbles"><span class="toc-section-number">3.3</span> Tibbles<span></span></a>
+<ul>
+<li><a href="tibbles.html#creating-tibbles" id="toc-creating-tibbles"><span class="toc-section-number">3.3.1</span> Creating tibbles<span></span></a></li>
+<li><a href="tibbles.html#working-with-tibbles" id="toc-working-with-tibbles"><span class="toc-section-number">3.3.2</span> Working with tibbles<span></span></a></li>
+<li><a href="tibbles.html#subsetting-tibbles-always-results-in-a-tibble" id="toc-subsetting-tibbles-always-results-in-a-tibble"><span class="toc-section-number">3.3.3</span> Subsetting tibbles always results in a tibble<span></span></a></li>
+</ul></li>
+<li><a href="reading-in-data-using-readr.html#reading-in-data-using-readr" id="toc-reading-in-data-using-readr"><span class="toc-section-number">3.4</span> Reading in data using readr<span></span></a>
+<ul>
+<li><a href="reading-in-data-using-readr.html#task-2" id="toc-task-2"><span class="toc-section-number">3.4.1</span> Task<span></span></a></li>
+<li><a href="reading-in-data-using-readr.html#answer-1" id="toc-answer-1"><span class="toc-section-number">3.4.2</span> Answer<span></span></a></li>
+<li><a href="reading-in-data-using-readr.html#specifying-column-types" id="toc-specifying-column-types"><span class="toc-section-number">3.4.3</span> Specifying column types<span></span></a></li>
+<li><a href="reading-in-data-using-readr.html#additional-resources-1" id="toc-additional-resources-1"><span class="toc-section-number">3.4.4</span> Additional Resources<span></span></a></li>
+</ul></li>
+<li><a href="efficient-data-manipulation-using-dplyr.html#efficient-data-manipulation-using-dplyr" id="toc-efficient-data-manipulation-using-dplyr"><span class="toc-section-number">3.5</span> Efficient data manipulation using dplyr<span></span></a>
+<ul>
+<li><a href="efficient-data-manipulation-using-dplyr.html#overview-the-key-functions-verbs-for-dplyr" id="toc-overview-the-key-functions-verbs-for-dplyr"><span class="toc-section-number">3.5.1</span> Overview: the key functions (“verbs”) for <code>dplyr</code><span></span></a></li>
+<li><a href="efficient-data-manipulation-using-dplyr.html#selecting-observations-rows-using-filter-and-slice" id="toc-selecting-observations-rows-using-filter-and-slice"><span class="toc-section-number">3.5.2</span> Selecting observations (rows) using <code>filter</code> and <code>slice</code><span></span></a></li>
+<li><a href="efficient-data-manipulation-using-dplyr.html#task-3" id="toc-task-3"><span class="toc-section-number">3.5.3</span> Task<span></span></a></li>
+<li><a href="efficient-data-manipulation-using-dplyr.html#answer-2" id="toc-answer-2"><span class="toc-section-number">3.5.4</span> Answer<span></span></a></li>
+<li><a href="efficient-data-manipulation-using-dplyr.html#selecting-variables-columns-using-select" id="toc-selecting-variables-columns-using-select"><span class="toc-section-number">3.5.5</span> Selecting variables (columns) using <code>select</code><span></span></a></li>
+<li><a href="efficient-data-manipulation-using-dplyr.html#adding-new-variables-using-mutate" id="toc-adding-new-variables-using-mutate"><span class="toc-section-number">3.5.6</span> Adding new variables using <code>mutate</code><span></span></a></li>
+<li><a href="efficient-data-manipulation-using-dplyr.html#task-4" id="toc-task-4"><span class="toc-section-number">3.5.7</span> Task<span></span></a></li>
+<li><a href="efficient-data-manipulation-using-dplyr.html#answer-3" id="toc-answer-3"><span class="toc-section-number">3.5.8</span> Answer<span></span></a></li>
+<li><a href="efficient-data-manipulation-using-dplyr.html#sorting-data-sets-using-arrange" id="toc-sorting-data-sets-using-arrange"><span class="toc-section-number">3.5.9</span> Sorting data sets using <code>arrange</code><span></span></a></li>
+<li><a href="efficient-data-manipulation-using-dplyr.html#task-5" id="toc-task-5"><span class="toc-section-number">3.5.10</span> Task<span></span></a></li>
+<li><a href="efficient-data-manipulation-using-dplyr.html#answer-4" id="toc-answer-4"><span class="toc-section-number">3.5.11</span> Answer<span></span></a></li>
+<li><a href="efficient-data-manipulation-using-dplyr.html#grouping-data-and-calculating-group-wise-summary-statistics-group_by-and-summarise" id="toc-grouping-data-and-calculating-group-wise-summary-statistics-group_by-and-summarise"><span class="toc-section-number">3.5.12</span> Grouping data and calculating group-wise summary statistics: <code>group_by</code> and <code>summarise</code><span></span></a></li>
+<li><a href="efficient-data-manipulation-using-dplyr.html#task-6" id="toc-task-6"><span class="toc-section-number">3.5.13</span> Task<span></span></a></li>
+<li><a href="efficient-data-manipulation-using-dplyr.html#answer-5" id="toc-answer-5"><span class="toc-section-number">3.5.14</span> Answer<span></span></a></li>
+<li><a href="efficient-data-manipulation-using-dplyr.html#merging-joining-data-sets-using-the-join-type-functions" id="toc-merging-joining-data-sets-using-the-join-type-functions"><span class="toc-section-number">3.5.15</span> Merging (joining) data sets using the <code>join</code>-type functions<span></span></a></li>
+<li><a href="efficient-data-manipulation-using-dplyr.html#additional-resources-2" id="toc-additional-resources-2"><span class="toc-section-number">3.5.16</span> Additional Resources<span></span></a></li>
+</ul></li>
+</ul></li>
+<li><a href="creating-graphics-with-ggplot2.html#creating-graphics-with-ggplot2" id="toc-creating-graphics-with-ggplot2"><span class="toc-section-number">4</span> Creating Graphics with <code>ggplot2</code><span></span></a>
+<ul>
+<li><a href="ggplot-terms.html#ggplot-terms" id="toc-ggplot-terms"><span class="toc-section-number">4.1</span> ggplot terms<span></span></a>
+<ul>
+<li><a href="ggplot-terms.html#geometric-objects" id="toc-geometric-objects"><span class="toc-section-number">4.1.1</span> Geometric objects<span></span></a></li>
+<li><a href="ggplot-terms.html#aesthetics" id="toc-aesthetics"><span class="toc-section-number">4.1.2</span> Aesthetics<span></span></a></li>
+</ul></li>
+<li><a href="using-the-more-general-ggplot-interface.html#using-the-more-general-ggplot-interface" id="toc-using-the-more-general-ggplot-interface"><span class="toc-section-number">4.2</span> Using the more general ggplot interface<span></span></a>
+<ul>
+<li><a href="using-the-more-general-ggplot-interface.html#a-typical-ggplot-call" id="toc-a-typical-ggplot-call"><span class="toc-section-number">4.2.1</span> A typical ggplot call<span></span></a></li>
+<li><a href="using-the-more-general-ggplot-interface.html#adding-additional-layers" id="toc-adding-additional-layers"><span class="toc-section-number">4.2.2</span> Adding additional layers<span></span></a></li>
+<li><a href="using-the-more-general-ggplot-interface.html#explicit-drawing" id="toc-explicit-drawing"><span class="toc-section-number">4.2.3</span> Explicit drawing<span></span></a></li>
+<li><a href="using-the-more-general-ggplot-interface.html#task-7" id="toc-task-7"><span class="toc-section-number">4.2.4</span> Task<span></span></a></li>
+<li><a href="using-the-more-general-ggplot-interface.html#answer-6" id="toc-answer-6"><span class="toc-section-number">4.2.5</span> Answer<span></span></a></li>
+</ul></li>
+<li><a href="modifying-plots.html#modifying-plots" id="toc-modifying-plots"><span class="toc-section-number">4.3</span> Modifying Plots<span></span></a>
+<ul>
+<li><a href="modifying-plots.html#labels-and-titles" id="toc-labels-and-titles"><span class="toc-section-number">4.3.1</span> Labels and titles<span></span></a></li>
+<li><a href="modifying-plots.html#scales" id="toc-scales"><span class="toc-section-number">4.3.2</span> Scales<span></span></a></li>
+<li><a href="modifying-plots.html#statistics" id="toc-statistics"><span class="toc-section-number">4.3.3</span> Statistics<span></span></a></li>
+<li><a href="modifying-plots.html#theming" id="toc-theming"><span class="toc-section-number">4.3.4</span> Theming<span></span></a></li>
+<li><a href="modifying-plots.html#arranging-plots-faceting" id="toc-arranging-plots-faceting"><span class="toc-section-number">4.3.5</span> Arranging plots (faceting)<span></span></a></li>
+</ul></li>
+</ul></li>
+<li><a href="handling-date-time-data-with-lubridate.html#handling-date-time-data-with-lubridate" id="toc-handling-date-time-data-with-lubridate"><span class="toc-section-number">5</span> Handling date-time data with <code>lubridate</code><span></span></a>
+<ul>
+<li><a href="creating-datetimes.html#creating-datetimes" id="toc-creating-datetimes"><span class="toc-section-number">5.1</span> Creating date/times<span></span></a>
+<ul>
+<li><a href="creating-datetimes.html#from-strings" id="toc-from-strings"><span class="toc-section-number">5.1.1</span> From strings<span></span></a></li>
+<li><a href="creating-datetimes.html#from-individual-components" id="toc-from-individual-components"><span class="toc-section-number">5.1.2</span> From individual components<span></span></a></li>
+<li><a href="creating-datetimes.html#from-existing-types" id="toc-from-existing-types"><span class="toc-section-number">5.1.3</span> From existing types<span></span></a></li>
+</ul></li>
+<li><a href="date-time-components.html#date-time-components" id="toc-date-time-components"><span class="toc-section-number">5.2</span> Date-time Components<span></span></a>
+<ul>
+<li><a href="date-time-components.html#time-spans" id="toc-time-spans"><span class="toc-section-number">5.2.1</span> Time Spans<span></span></a></li>
+<li><a href="date-time-components.html#durations" id="toc-durations"><span class="toc-section-number">5.2.2</span> Durations<span></span></a></li>
+<li><a href="date-time-components.html#periods" id="toc-periods"><span class="toc-section-number">5.2.3</span> Periods<span></span></a></li>
+<li><a href="date-time-components.html#intervals" id="toc-intervals"><span class="toc-section-number">5.2.4</span> Intervals<span></span></a></li>
+</ul></li>
+</ul></li>
+<li><a href="producing-maps-for-plotting.html#producing-maps-for-plotting" id="toc-producing-maps-for-plotting"><span class="toc-section-number">6</span> Producing maps for plotting<span></span></a>
+<ul>
+<li><a href="producing-maps-using-ggmap.html#producing-maps-using-ggmap" id="toc-producing-maps-using-ggmap"><span class="toc-section-number">6.1</span> Producing maps using ggmap<span></span></a>
+<ul>
+<li><a href="producing-maps-using-ggmap.html#task-8" id="toc-task-8"><span class="toc-section-number">6.1.1</span> Task<span></span></a></li>
+<li><a href="producing-maps-using-ggmap.html#answer-7" id="toc-answer-7"><span class="toc-section-number">6.1.2</span> Answer<span></span></a></li>
+<li><a href="producing-maps-using-ggmap.html#producing-maps-using-leaflet" id="toc-producing-maps-using-leaflet"><span class="toc-section-number">6.1.3</span> Producing maps using leaflet<span></span></a></li>
+</ul></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Visualising Data using R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="using-the-more-general-ggplot-interface" class="section level2 hasAnchor" number="4.2">
+<h2><span class="header-section-number">4.2</span> Using the more general ggplot interface<a href="using-the-more-general-ggplot-interface.html#using-the-more-general-ggplot-interface" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="a-typical-ggplot-call" class="section level3 hasAnchor" number="4.2.1">
+<h3><span class="header-section-number">4.2.1</span> A typical ggplot call<a href="using-the-more-general-ggplot-interface.html#a-typical-ggplot-call" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>A plotting command for <code>ggplot</code> consists of a sequence of function calls added together using the standard sum operator <code>+</code>:</p>
+<div class="sourceCode" id="cb94"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb94-1"><a href="using-the-more-general-ggplot-interface.html#cb94-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>...) <span class="sc">+</span>                <span class="co"># Specify data source</span></span>
+<span id="cb94-2"><a href="using-the-more-general-ggplot-interface.html#cb94-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(...) <span class="sc">+</span>                    <span class="co"># Generic aesthetics applying to all layers</span></span>
+<span id="cb94-3"><a href="using-the-more-general-ggplot-interface.html#cb94-3" aria-hidden="true" tabindex="-1"></a>    geom_<span class="sc">&lt;</span>type<span class="sc">&gt;</span>(<span class="fu">aes</span>(...), ...)  <span class="sc">+</span> <span class="co"># Geometry for one layer with layers-specific aesthetics</span></span>
+<span id="cb94-4"><a href="using-the-more-general-ggplot-interface.html#cb94-4" aria-hidden="true" tabindex="-1"></a>    geom_<span class="sc">&lt;</span>type<span class="sc">&gt;</span>(<span class="fu">aes</span>(...), ...)  <span class="sc">+</span></span>
+<span id="cb94-5"><a href="using-the-more-general-ggplot-interface.html#cb94-5" aria-hidden="true" tabindex="-1"></a>    ...                           <span class="co"># Further arguments for fine-tuning (themes, scales, facets, ...)</span></span></code></pre></div>
+<p><code>geom_&lt;type&gt;</code> objects do not necessarily have to use the same data as specified in the call to <code>ggplot</code>. If the optional argument <code>data</code> is specified, then the data source provided is used for this layer.</p>
+<p>For the following example, we will use data on health expenditure by country, reported on an annual basis. We can produce a plot like the following using <code>ggplot</code> commands.</p>
+<div class="sourceCode" id="cb95"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb95-1"><a href="using-the-more-general-ggplot-interface.html#cb95-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>health) <span class="sc">+</span> </span>
+<span id="cb95-2"><a href="using-the-more-general-ggplot-interface.html#cb95-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x=</span>HealthExpenditure,  <span class="at">y=</span>LifeExpectancy) <span class="sc">+</span></span>
+<span id="cb95-3"><a href="using-the-more-general-ggplot-interface.html#cb95-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">colour=</span>Region, <span class="at">size=</span>Population)) <span class="sc">+</span></span>
+<span id="cb95-4"><a href="using-the-more-general-ggplot-interface.html#cb95-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_log10</span>()</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-53-1.png" width="\textwidth" /></p>
+</div>
+<div id="adding-additional-layers" class="section level3 hasAnchor" number="4.2.2">
+<h3><span class="header-section-number">4.2.2</span> Adding additional layers<a href="using-the-more-general-ggplot-interface.html#adding-additional-layers" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Additional layers can simply be added to the plot. For example, we can add an overall regression line with confidence bands using</p>
+<div class="sourceCode" id="cb96"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb96-1"><a href="using-the-more-general-ggplot-interface.html#cb96-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>health) <span class="sc">+</span> </span>
+<span id="cb96-2"><a href="using-the-more-general-ggplot-interface.html#cb96-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">x=</span>HealthExpenditure,  <span class="at">y=</span>LifeExpectancy) <span class="sc">+</span></span>
+<span id="cb96-3"><a href="using-the-more-general-ggplot-interface.html#cb96-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">colour=</span>Region, <span class="at">size=</span>Population)) <span class="sc">+</span></span>
+<span id="cb96-4"><a href="using-the-more-general-ggplot-interface.html#cb96-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_smooth</span>(<span class="at">method=</span><span class="st">&quot;lm&quot;</span>)  <span class="sc">+</span></span>
+<span id="cb96-5"><a href="using-the-more-general-ggplot-interface.html#cb96-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_x_log10</span>()</span></code></pre></div>
+<pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-54-1.png" width="\textwidth" /></p>
+<p>If we want to add a different regression line for each country we have to make sure that a <code>group</code> or <code>colour</code> aesthetic is passed to <code>geom_smooth</code>. We could pass <code>aes(colour=Region)</code> to <code>geom_smooth</code>. Alternatively, we can move <code>colour=Region</code> from the aesthetics specific to <code>geom_point</code> to the generic aesthetics, so that <code>colour=Region</code> now applies to both <code>geom_point</code> and <code>geom_smooth</code>.</p>
+<div class="sourceCode" id="cb98"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb98-1"><a href="using-the-more-general-ggplot-interface.html#cb98-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>health) <span class="sc">+</span> </span>
+<span id="cb98-2"><a href="using-the-more-general-ggplot-interface.html#cb98-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">x=</span>HealthExpenditure,  <span class="at">y=</span>LifeExpectancy, <span class="at">colour=</span>Region) <span class="sc">+</span></span>
+<span id="cb98-3"><a href="using-the-more-general-ggplot-interface.html#cb98-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">size=</span>Population)) <span class="sc">+</span></span>
+<span id="cb98-4"><a href="using-the-more-general-ggplot-interface.html#cb98-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_smooth</span>(<span class="at">method=</span><span class="st">&quot;lm&quot;</span>)  <span class="sc">+</span></span>
+<span id="cb98-5"><a href="using-the-more-general-ggplot-interface.html#cb98-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_x_log10</span>()</span></code></pre></div>
+<pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
+<pre><code>## Warning in qt((1 - level)/2, df): NaNs produced</code></pre>
+<pre><code>## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+## -Inf</code></pre>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-55-1.png" width="\textwidth" /></p>
+<p>The warning comes from the fact that there are only two North American countries, so we can fit a line through them with no error, which means we cannot draw confidence bands.</p>
+<p>The plot looks slightly messy, we will use <code>facet_wrap</code> later on to split it into separate panels.</p>
+<p>Suppose we want to annotate the observations belonging to Australia, the UK, the US.</p>
+<div class="sourceCode" id="cb102"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb102-1"><a href="using-the-more-general-ggplot-interface.html#cb102-1" aria-hidden="true" tabindex="-1"></a>health2 <span class="ot">&lt;-</span> health <span class="sc">%&gt;%</span></span>
+<span id="cb102-2"><a href="using-the-more-general-ggplot-interface.html#cb102-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(Country <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;Australia&quot;</span>, <span class="st">&quot;United Kingdom&quot;</span>, <span class="st">&quot;United States&quot;</span>))</span>
+<span id="cb102-3"><a href="using-the-more-general-ggplot-interface.html#cb102-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>health) <span class="sc">+</span> </span>
+<span id="cb102-4"><a href="using-the-more-general-ggplot-interface.html#cb102-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">x=</span>HealthExpenditure,  <span class="at">y=</span>LifeExpectancy, <span class="at">colour=</span>Region) <span class="sc">+</span></span>
+<span id="cb102-5"><a href="using-the-more-general-ggplot-interface.html#cb102-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">size=</span>Population)) <span class="sc">+</span></span>
+<span id="cb102-6"><a href="using-the-more-general-ggplot-interface.html#cb102-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_label</span>(<span class="at">data=</span>health2, </span>
+<span id="cb102-7"><a href="using-the-more-general-ggplot-interface.html#cb102-7" aria-hidden="true" tabindex="-1"></a>               <span class="fu">aes</span>(<span class="at">x=</span>HealthExpenditure,  <span class="at">y=</span>LifeExpectancy, <span class="at">label=</span>Country),</span>
+<span id="cb102-8"><a href="using-the-more-general-ggplot-interface.html#cb102-8" aria-hidden="true" tabindex="-1"></a>               <span class="at">show.legend=</span><span class="cn">FALSE</span>)</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-56-1.png" width="\textwidth" /></p>
+<p>The labels however cover the observations and might not be fully visible. This can be avoided by using the function <code>geom_label_repel</code> from <a href="https://cran.r-project.org/web/packages/ggrepel">ggrepel</a>.</p>
+<div class="sourceCode" id="cb103"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb103-1"><a href="using-the-more-general-ggplot-interface.html#cb103-1" aria-hidden="true" tabindex="-1"></a>health <span class="ot">&lt;-</span> health <span class="sc">%&gt;%</span></span>
+<span id="cb103-2"><a href="using-the-more-general-ggplot-interface.html#cb103-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">CountryLabel=</span><span class="fu">ifelse</span>(Country<span class="sc">%in%</span><span class="fu">c</span>(<span class="st">&quot;Australia&quot;</span>, <span class="st">&quot;United Kingdom&quot;</span>, <span class="st">&quot;United States&quot;</span>),</span>
+<span id="cb103-3"><a href="using-the-more-general-ggplot-interface.html#cb103-3" aria-hidden="true" tabindex="-1"></a>                               <span class="fu">as.character</span>(Country),<span class="st">&quot;&quot;</span>))</span>
+<span id="cb103-4"><a href="using-the-more-general-ggplot-interface.html#cb103-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb103-5"><a href="using-the-more-general-ggplot-interface.html#cb103-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggrepel)</span>
+<span id="cb103-6"><a href="using-the-more-general-ggplot-interface.html#cb103-6" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>health) <span class="sc">+</span> </span>
+<span id="cb103-7"><a href="using-the-more-general-ggplot-interface.html#cb103-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">x=</span>HealthExpenditure,  <span class="at">y=</span>LifeExpectancy, <span class="at">colour=</span>Region) <span class="sc">+</span></span>
+<span id="cb103-8"><a href="using-the-more-general-ggplot-interface.html#cb103-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">size=</span>Population)) <span class="sc">+</span></span>
+<span id="cb103-9"><a href="using-the-more-general-ggplot-interface.html#cb103-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_label_repel</span>(<span class="fu">aes</span>(<span class="at">label=</span>CountryLabel), <span class="at">show.legend=</span><span class="cn">FALSE</span>)</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-57-1.png" width="\textwidth" /></p>
+<p>This time, we have used a different approach. Rather than subsetting the data and creating a separate data frame only containing the data for the three countries, we have created a new column in the data frame <code>health</code>, which is blank except for the three countries. This is required because <code>ggrepel</code> layers are only aware of data drawn in their own layer: this way we can avoid the labels covering observations we have not labelled.</p>
+</div>
+<div id="explicit-drawing" class="section level3 hasAnchor" number="4.2.3">
+<h3><span class="header-section-number">4.2.3</span> Explicit drawing<a href="using-the-more-general-ggplot-interface.html#explicit-drawing" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The standard R plotting functions draw a plot as soon as the plot function is invoked.</p>
+<p>Plotting commands in <code>ggplot2</code> (including <code>qplot</code>) return objects (otherwise the <code>+</code> notation would not work) and only draw the plot when their <code>print</code> or <code>plot</code> methods are invoked. In the console this is the case when they are used without an assignment.</p>
+<div class="sourceCode" id="cb104"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb104-1"><a href="using-the-more-general-ggplot-interface.html#cb104-1" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data=</span>health) <span class="sc">+</span>            <span class="co"># Does not draw anything</span></span>
+<span id="cb104-2"><a href="using-the-more-general-ggplot-interface.html#cb104-2" aria-hidden="true" tabindex="-1"></a>         <span class="fu">aes</span>(<span class="at">x=</span>HealthExpenditure, <span class="at">y=</span>LifeExpectancy) <span class="sc">+</span></span>
+<span id="cb104-3"><a href="using-the-more-general-ggplot-interface.html#cb104-3" aria-hidden="true" tabindex="-1"></a>         <span class="fu">geom_point</span>()</span>
+<span id="cb104-4"><a href="using-the-more-general-ggplot-interface.html#cb104-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb104-5"><a href="using-the-more-general-ggplot-interface.html#cb104-5" aria-hidden="true" tabindex="-1"></a>b <span class="ot">&lt;-</span> a <span class="sc">+</span> <span class="fu">scale_x_log10</span>()              <span class="co"># Does not draw anything either</span></span>
+<span id="cb104-6"><a href="using-the-more-general-ggplot-interface.html#cb104-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb104-7"><a href="using-the-more-general-ggplot-interface.html#cb104-7" aria-hidden="true" tabindex="-1"></a>a                                     <span class="co"># Now the plot stored in a gets drawn</span></span>
+<span id="cb104-8"><a href="using-the-more-general-ggplot-interface.html#cb104-8" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(a)                              <span class="co"># Draw a again (explicit invocation)</span></span>
+<span id="cb104-9"><a href="using-the-more-general-ggplot-interface.html#cb104-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb104-10"><a href="using-the-more-general-ggplot-interface.html#cb104-10" aria-hidden="true" tabindex="-1"></a>b                                     <span class="co"># Now the plot stored in b gets drawn</span></span></code></pre></div>
+<p>Inside loops and functions the <code>print</code> or <code>plot</code> methods need to be invoked explicitly by using the methods <code>print</code> or <code>plot</code>.</p>
+</div>
+<div id="task-7" class="section level3 hasAnchor" number="4.2.4">
+<h3><span class="header-section-number">4.2.4</span> Task<a href="using-the-more-general-ggplot-interface.html#task-7" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Consider two vectors <code>x</code> and <code>y</code> created using</p>
+<div class="sourceCode" id="cb105"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb105-1"><a href="using-the-more-general-ggplot-interface.html#cb105-1" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fl">1e3</span></span>
+<span id="cb105-2"><a href="using-the-more-general-ggplot-interface.html#cb105-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">runif</span>(n, <span class="dv">0</span>, <span class="dv">2</span><span class="sc">*</span>pi)                   <span class="co"># x is random uniform from (0,2*pi)</span></span>
+<span id="cb105-3"><a href="using-the-more-general-ggplot-interface.html#cb105-3" aria-hidden="true" tabindex="-1"></a><span class="co"># x &lt;- sort(x)                           # Sorting of x _not_ needed for ggplot</span></span>
+<span id="cb105-4"><a href="using-the-more-general-ggplot-interface.html#cb105-4" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">sin</span>(x)                              <span class="co"># Set y to the sine of x</span></span>
+<span id="cb105-5"><a href="using-the-more-general-ggplot-interface.html#cb105-5" aria-hidden="true" tabindex="-1"></a>y.noisy <span class="ot">&lt;-</span> y <span class="sc">+</span> .<span class="dv">25</span> <span class="sc">*</span> <span class="fu">rnorm</span>(n)            <span class="co"># Create noisy version of y</span></span></code></pre></div>
+<p>Use <code>ggplot2</code> to create a scatterplot of <code>y.noisy</code> against <code>x</code>, which also shows the noise-free sine curve in <code>y</code>.</p>
+</div>
+<div id="answer-6" class="section level3 hasAnchor" number="4.2.5">
+<h3><span class="header-section-number">4.2.5</span> Answer<a href="using-the-more-general-ggplot-interface.html#answer-6" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>We can use the following R code:</p>
+<div class="sourceCode" id="cb106"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb106-1"><a href="using-the-more-general-ggplot-interface.html#cb106-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span>                               <span class="co"># No need to use data=... as x, y and y.noisy</span></span>
+<span id="cb106-2"><a href="using-the-more-general-ggplot-interface.html#cb106-2" aria-hidden="true" tabindex="-1"></a>                                         <span class="co"># are variables in the workspace and not columns</span></span>
+<span id="cb106-3"><a href="using-the-more-general-ggplot-interface.html#cb106-3" aria-hidden="true" tabindex="-1"></a>                                         <span class="co"># in a dataset</span></span>
+<span id="cb106-4"><a href="using-the-more-general-ggplot-interface.html#cb106-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="fu">aes</span>(x, y.noisy)) <span class="sc">+</span></span>
+<span id="cb106-5"><a href="using-the-more-general-ggplot-interface.html#cb106-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_line</span>(<span class="fu">aes</span>(x, y))</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-59-1.png" width="672" /></p>
+<p>It does not matter whether <code>geom_point</code> or <code>geom_line</code> comes first. <code>ggplot2</code> adapts the axes so that all objects drawn fit (and not just the first one as is the case when using standard R plotting functions <code>plot</code> and <code>points</code>).</p>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="ggplot-terms.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="modifying-plots.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="assets/gitbook-2.6.7/js/app.min.js"></script>
+<script src="assets/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="assets/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="assets/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="assets/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="assets/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="assets/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="assets/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/03-ggplot.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["bookdown-demo.pdf", "bookdown-demo.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+},
+"toolbar": {
+"position": "static"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

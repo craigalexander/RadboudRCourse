@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Chapter 7 Overview | Visualising Data using R</title>
+<meta name="author" content="Craig Alexander">
+<meta name="description" content="The R programming language provides researchers with access to a large range of fully customisable data visualisation options, which are typically not available in point-and-click software. These...">
+<meta name="generator" content="bookdown 0.25 with bs4_book()">
+<meta property="og:title" content="Chapter 7 Overview | Visualising Data using R">
+<meta property="og:type" content="book">
+<meta property="og:description" content="The R programming language provides researchers with access to a large range of fully customisable data visualisation options, which are typically not available in point-and-click software. These...">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Chapter 7 Overview | Visualising Data using R">
+<meta name="twitter:description" content="The R programming language provides researchers with access to a large range of fully customisable data visualisation options, which are typically not available in point-and-click software. These...">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.3.1/transition.js"></script><script src="libs/bs3compat-0.3.1/tabs.js"></script><script src="libs/bs3compat-0.3.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
+    
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  </style>
+</head>
+<body data-spy="scroll" data-target="#toc">
+
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="">Visualising Data using R</a>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
+    </div>
+
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+</form>
+
+      <nav aria-label="Table of contents"><h2>Table of contents</h2>
+        <ul class="book-toc list-unstyled">
+<li><a class="" href="index.html"><span class="header-section-number">1</span> Overview</a></li>
+<li><a class="" href="intro.html"><span class="header-section-number">2</span> Getting Started</a></li>
+<li><a class="" href="efficient-data-management-in-r.html"><span class="header-section-number">3</span> Efficient Data Management in R</a></li>
+<li><a class="" href="creating-graphics-with-ggplot2.html"><span class="header-section-number">4</span> Creating Graphics with ggplot2</a></li>
+<li><a class="" href="handling-date-time-data-with-lubridate.html"><span class="header-section-number">5</span> Handling date-time data with lubridate</a></li>
+<li><a class="" href="producing-maps-for-plotting.html"><span class="header-section-number">6</span> Producing maps for Plotting</a></li>
+<li><a class="active" href="overview-1.html"><span class="header-section-number">7</span> Overview</a></li>
+</ul>
+
+        <div class="book-extra">
+          
+        </div>
+      </nav>
+</div>
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="overview-1" class="section level1" number="7">
+<h1>
+<span class="header-section-number">7</span> Overview<a class="anchor" aria-label="anchor" href="#overview-1"><i class="fas fa-link"></i></a>
+</h1>
+<p>The R programming language provides researchers with access to a large range of fully customisable data visualisation options, which are typically not available in point-and-click software. These visualisations are not only visually appealing, but can increase transparency about the distribution of the underlying data, rather than relying on commonly used visualisations of aggregations.</p>
+<p>In this introductory section of our course, we will provide a practical introduction to using R, particularly in how to visualise data which you will use throughout the course. First, we will explain the rationale behind using R for data visualisation using the <code>ggplot2</code> package. This package will allow us to begin with common plotting outputs such as histograms and boxplots, and extend to more complex structures used within spatial data visualisation.</p>
+<div id="setting-up-r-and-rstudio" class="section level2" number="7.1">
+<h2>
+<span class="header-section-number">7.1</span> Setting up R and RStudio<a class="anchor" aria-label="anchor" href="#setting-up-r-and-rstudio"><i class="fas fa-link"></i></a>
+</h2>
+<p>You need to have access to <a href="https://www.r-project.org/">R</a> for this course. You can download R for free from <a href="https://cran.r-project.org/">CRAN</a>.</p>
+<p>R is available for Windows, Mac OS and Linux as well as some less common platforms.</p>
+<p>You can download the standard version of R from <a href="https://cran.r-project.org/">CRAN</a>.</p>
+<div id="downloading-and-installing-r-for-windows-1" class="section level3" number="7.1.1">
+<h3>
+<span class="header-section-number">7.1.1</span> Downloading and installing R for Windows<a class="anchor" aria-label="anchor" href="#downloading-and-installing-r-for-windows-1"><i class="fas fa-link"></i></a>
+</h3>
+<p>To download the Windows installer of R, just enter the following URL (or click on the clink).</p>
+<p><a href="https://cran.r-project.org//bin/windows/base/release.html" class="uri">https://cran.r-project.org//bin/windows/base/release.html</a></p>
+<p>This will download the most installer for the most recent version of R. Alternatively, you can go to the main CRAN page, <a href="https://cran.r-project.org/" class="uri">https://cran.r-project.org/</a>, and then click on “Download R for Windows”, click on “base” and then on “Download R x.y.z for Windows” (where x.y.z is the current version number of R).</p>
+<p>You can then run the installer, accepting all default settings.</p>
+</div>
+<div id="downloading-and-installing-r-for-mac-1" class="section level3" number="7.1.2">
+<h3>
+<span class="header-section-number">7.1.2</span> Downloading and installing R for Mac<a class="anchor" aria-label="anchor" href="#downloading-and-installing-r-for-mac-1"><i class="fas fa-link"></i></a>
+</h3>
+<p>To download the Windows installer for Mac, just enter the following URL (or click on the clink).</p>
+<p><a href="https://cran.r-project.org/bin/macosx/" class="uri">https://cran.r-project.org/bin/macosx/</a></p>
+<p>From here, select the most recent version of R and the .pkg file will automatically download. This file will be in the form “R-x.y.z” (where x.y.z is the current version number of R).</p>
+<p>Once the file is opened, the installer will open and you can select the default settings.</p>
+</div>
+</div>
+<div id="rstudio-1" class="section level2" number="7.2">
+<h2>
+<span class="header-section-number">7.2</span> RStudio<a class="anchor" aria-label="anchor" href="#rstudio-1"><i class="fas fa-link"></i></a>
+</h2>
+<p>It is recommended that you also download and install <a href="https://www.rstudio.com/products/rstudio/download/">RStudio Desktop</a>, a powerful <a href="https://en.wikipedia.org/wiki/Integrated_development_environment">integrated development environment (IDE)</a> for R. RStudio contains a much better code editor. It has, for example, <a href="https://en.wikipedia.org/wiki/Syntax_highlighting">syntax highlighting</a>, i.e. it will automatically display your code in different colours to make it easier and quicker to read the code.</p>
+<p>RStudio is just a front-end for R, so to be able make use of RStudio, you need to also have R installed.</p>
+<p>RStudio Desktop Open Source is available for free from <a href="https://rstudio.com">RStudio</a>.</p>
+<div id="installing-rstudio-for-windowsmac-1" class="section level3" number="7.2.1">
+<h3>
+<span class="header-section-number">7.2.1</span> Installing RStudio for Windows/Mac<a class="anchor" aria-label="anchor" href="#installing-rstudio-for-windowsmac-1"><i class="fas fa-link"></i></a>
+</h3>
+<p>Go to</p>
+<p><a href="https://www.rstudio.com/products/rstudio/download/" class="uri">https://www.rstudio.com/products/rstudio/download/</a></p>
+<p>and scroll down to the section “All installers”, then click on “RStudio-x-y-z.exe” in the first row of the table for a Windows install, or click on “RStudio-x-y-z.dmg” for a macOS install. This should start the download of the RStudio installer.</p>
+<p>You can then run the installer, accepting all default settings (for macOS, you will need to drag and drop the application into the applications folder once open).</p>
+
+</div>
+</div>
+</div>
+  <div class="chapter-nav">
+<div class="prev"><a href="producing-maps-for-plotting.html"><span class="header-section-number">6</span> Producing maps for Plotting</a></div>
+<div class="empty"></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#overview-1"><span class="header-section-number">7</span> Overview</a></li>
+<li>
+<a class="nav-link" href="#setting-up-r-and-rstudio"><span class="header-section-number">7.1</span> Setting up R and RStudio</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#downloading-and-installing-r-for-windows-1"><span class="header-section-number">7.1.1</span> Downloading and installing R for Windows</a></li>
+<li><a class="nav-link" href="#downloading-and-installing-r-for-mac-1"><span class="header-section-number">7.1.2</span> Downloading and installing R for Mac</a></li>
+</ul>
+</li>
+<li>
+<a class="nav-link" href="#rstudio-1"><span class="header-section-number">7.2</span> RStudio</a><ul class="nav navbar-nav"><li><a class="nav-link" href="#installing-rstudio-for-windowsmac-1"><span class="header-section-number">7.2.1</span> Installing RStudio for Windows/Mac</a></li></ul>
+</li>
+</ul>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+          
+        </ul>
+</div>
+    </nav>
+</div>
+
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>Visualising Data using R</strong>" was written by Craig Alexander. It was last built on 2022-08-02.</p>
+  </div>
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer><!-- dynamically load mathjax for compatibility with self-contained --><script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script><script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
+for (let popover of popovers) {
+  const div = document.createElement('div');
+  div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
+  div.innerHTML = popover.getAttribute('data-content');
+
+  var has_math = div.querySelector("span.math");
+  if (has_math) {
+    document.body.appendChild(div);
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, div]);
+    MathJax.Hub.Queue(function() {
+      popover.setAttribute('data-content', div.innerHTML);
+      document.body.removeChild(div);
+    })
+  }
+}
+</script>
+</body>
+</html>

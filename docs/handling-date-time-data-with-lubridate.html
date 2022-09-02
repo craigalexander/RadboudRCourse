@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Chapter 5 Handling date-time data with lubridate | Visualising Data using R</title>
+<meta name="author" content="Craig Alexander, Eilidh Jack &amp; Marnie Low">
+<meta name="description" content="Date-time data can be complex to handle in R. Classic R commands for date-times are generally unintuitive and vary depending on the date-time object being used. the lubridate package makes it...">
+<meta name="generator" content="bookdown 0.25 with bs4_book()">
+<meta property="og:title" content="Chapter 5 Handling date-time data with lubridate | Visualising Data using R">
+<meta property="og:type" content="book">
+<meta property="og:description" content="Date-time data can be complex to handle in R. Classic R commands for date-times are generally unintuitive and vary depending on the date-time object being used. the lubridate package makes it...">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Chapter 5 Handling date-time data with lubridate | Visualising Data using R">
+<meta name="twitter:description" content="Date-time data can be complex to handle in R. Classic R commands for date-times are generally unintuitive and vary depending on the date-time object being used. the lubridate package makes it...">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.3.1/transition.js"></script><script src="libs/bs3compat-0.3.1/tabs.js"></script><script src="libs/bs3compat-0.3.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
+    
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  </style>
+</head>
+<body data-spy="scroll" data-target="#toc">
+
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="">Visualising Data using R</a>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
+    </div>
+
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+</form>
+
+      <nav aria-label="Table of contents"><h2>Table of contents</h2>
+        <ul class="book-toc list-unstyled">
+<li><a class="" href="index.html"><span class="header-section-number">1</span> Overview</a></li>
+<li><a class="" href="intro.html"><span class="header-section-number">2</span> Getting Started</a></li>
+<li><a class="" href="efficient-data-management-in-r.html"><span class="header-section-number">3</span> Efficient Data Management in R</a></li>
+<li><a class="" href="creating-graphics-with-ggplot2.html"><span class="header-section-number">4</span> Creating Graphics with ggplot2</a></li>
+<li><a class="active" href="handling-date-time-data-with-lubridate.html"><span class="header-section-number">5</span> Handling date-time data with lubridate</a></li>
+<li><a class="" href="producing-maps-for-plotting.html"><span class="header-section-number">6</span> Producing maps for plotting</a></li>
+</ul>
+
+        <div class="book-extra">
+          
+        </div>
+      </nav>
+</div>
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="handling-date-time-data-with-lubridate" class="section level1" number="5">
+<h1>
+<span class="header-section-number">5</span> Handling date-time data with <code>lubridate</code><a class="anchor" aria-label="anchor" href="#handling-date-time-data-with-lubridate"><i class="fas fa-link"></i></a>
+</h1>
+<p>Date-time data can be complex to handle in R. Classic R commands for date-times are generally unintuitive and vary depending on the date-time object being used. the <code>lubridate</code> package makes it easier to handle date-times in R and handle many tasks classic R functions cannot handle.</p>
+<p>We will cover some useful commands within the package but do consult the <code>lubridate</code> cheat sheet below for a series of useful commands.</p>
+<p><a href="%22https://rawgit.com/rstudio/cheatsheets/main/lubridate.pdf%22">Lubridate cheat sheet</a></p>
+<div id="creating-datetimes" class="section level2" number="5.1">
+<h2>
+<span class="header-section-number">5.1</span> Creating date/times<a class="anchor" aria-label="anchor" href="#creating-datetimes"><i class="fas fa-link"></i></a>
+</h2>
+<p>There are three types of date/time data that refer to an instant in time:</p>
+<ul>
+<li>A <em>date</em>. Tibbles print this as <code>&lt;date&gt;</code>
+</li>
+<li>A <em>time</em> within a day. Tibbles print this as <code>&lt;time&gt;</code>
+</li>
+<li>A <em>date-time</em> is a date plus a time: it uniquely identifies an instant in time. Tibbles print this as <code>&lt;dttm&gt;</code>.</li>
+</ul>
+<p>You should always use the simplest possible data type for what you need.</p>
+<p>There are three ways you are likely to create a date/time:</p>
+<ul>
+<li>From a string</li>
+<li>From date/time components</li>
+<li>From an existing date/time object</li>
+</ul>
+<p>These can be created as follows.</p>
+<div id="from-strings" class="section level3" number="5.1.1">
+<h3>
+<span class="header-section-number">5.1.1</span> From strings<a class="anchor" aria-label="anchor" href="#from-strings"><i class="fas fa-link"></i></a>
+</h3>
+<p>We can convert a string to a date/time object using functions within <code>lubridate</code>. These functions automatically work out the format once you specify the order of the component. To use them, identify the order in which year, month and day appear in your dates, then arrange “y”, “m”, and “d” in the same order. This gives you the name of the function you need to call. For example:</p>
+<div class="sourceCode" id="cb118"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">ymd</span><span class="op">(</span><span class="st">"2022-08-02"</span><span class="op">)</span></code></pre></div>
+<pre><code>## [1] "2022-08-02"</code></pre>
+<div class="sourceCode" id="cb120"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">mdy</span><span class="op">(</span><span class="st">"August 2nd, 2022"</span><span class="op">)</span></code></pre></div>
+<pre><code>## [1] "2022-08-02"</code></pre>
+<div class="sourceCode" id="cb122"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">dmy</span><span class="op">(</span><span class="st">"02-Aug-2022"</span><span class="op">)</span></code></pre></div>
+<pre><code>## [1] "2022-08-02"</code></pre>
+<p>These functions also take unquoted numbers. This is the most concise way to create a single date/time object.</p>
+<div class="sourceCode" id="cb124"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">ymd</span><span class="op">(</span><span class="fl">20220802</span><span class="op">)</span></code></pre></div>
+<pre><code>## [1] "2022-08-02"</code></pre>
+<p>To create a date-time, add an underscore to the previous functions and one or more of “h”, “m” and “s” to the name of the function</p>
+<div class="sourceCode" id="cb126"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">ymd_hms</span><span class="op">(</span><span class="st">"2022-08-02 13:05:02"</span><span class="op">)</span></code></pre></div>
+<pre><code>## [1] "2022-08-02 13:05:02 UTC"</code></pre>
+<div class="sourceCode" id="cb128"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">mdy_hm</span><span class="op">(</span><span class="st">"08/02/2022 13:05"</span><span class="op">)</span></code></pre></div>
+<pre><code>## [1] "2022-08-02 13:05:00 UTC"</code></pre>
+<p>You can also force the creation of a date-time from a date by supplying a timezone</p>
+<div class="sourceCode" id="cb130"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">ymd</span><span class="op">(</span><span class="fl">20220802</span>,tz<span class="op">=</span><span class="st">"UTC"</span><span class="op">)</span></code></pre></div>
+<pre><code>## [1] "2022-08-02 UTC"</code></pre>
+</div>
+<div id="from-individual-components" class="section level3" number="5.1.2">
+<h3>
+<span class="header-section-number">5.1.2</span> From individual components<a class="anchor" aria-label="anchor" href="#from-individual-components"><i class="fas fa-link"></i></a>
+</h3>
+<p>Instead of a string, you sometimes may have individual components of the date-time spread across multiple columns. Looking at data provided within the <code>nycflights13</code> library, we see</p>
+<div class="sourceCode" id="cb132"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/hadley/nycflights13">nycflights13</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span>
+
+<span class="va">flights</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">year</span>,<span class="va">month</span>,<span class="va">day</span>,<span class="va">hour</span>,<span class="va">minute</span><span class="op">)</span></code></pre></div>
+<pre><code>## # A tibble: 336,776 × 5
+##     year month   day  hour minute
+##    &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;dbl&gt;  &lt;dbl&gt;
+##  1  2013     1     1     5     15
+##  2  2013     1     1     5     29
+##  3  2013     1     1     5     40
+##  4  2013     1     1     5     45
+##  5  2013     1     1     6      0
+##  6  2013     1     1     5     58
+##  7  2013     1     1     6      0
+##  8  2013     1     1     6      0
+##  9  2013     1     1     6      0
+## 10  2013     1     1     6      0
+## # … with 336,766 more rows</code></pre>
+<p>To create a date/time for this data, we can use <code>make_date()</code> for dates, or <code>make_datetime()</code> for date-times:</p>
+<div class="sourceCode" id="cb134"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">flights</span> <span class="op">&lt;-</span> <span class="va">flights</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">year</span>,<span class="va">month</span>,<span class="va">day</span>,<span class="va">hour</span>,<span class="va">minute</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>departure_time<span class="op">=</span><span class="fu">make_datetime</span><span class="op">(</span><span class="va">year</span>,<span class="va">month</span>,<span class="va">day</span>,<span class="va">hour</span>,<span class="va">minute</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+</div>
+<div id="from-existing-types" class="section level3" number="5.1.3">
+<h3>
+<span class="header-section-number">5.1.3</span> From existing types<a class="anchor" aria-label="anchor" href="#from-existing-types"><i class="fas fa-link"></i></a>
+</h3>
+<p>You may wish to switch between a date-time and a date. This can be done using <code>as_datetime()</code> and <code>as_date()</code></p>
+<div class="sourceCode" id="cb135"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">as_datetime</span><span class="op">(</span><span class="fu">today</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<pre><code>## [1] "2022-08-15 UTC"</code></pre>
+<div class="sourceCode" id="cb137"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">as_date</span><span class="op">(</span><span class="fu">now</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<pre><code>## [1] "2022-08-15"</code></pre>
+</div>
+</div>
+<div id="date-time-components" class="section level2" number="5.2">
+<h2>
+<span class="header-section-number">5.2</span> Date-time Components<a class="anchor" aria-label="anchor" href="#date-time-components"><i class="fas fa-link"></i></a>
+</h2>
+<p>Here, we will look at functions which can let us access certain components of a date-time object.</p>
+<p>You can obtain certain parts of a date with functions like <code>year()</code>, <code>month()</code>, <code>mday()</code> (day of month), <code>yday()</code> (day of year), <code>hour()</code>, <code>minute()</code> and <code>second()</code>.</p>
+<div class="sourceCode" id="cb139"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">date_time</span> <span class="op">&lt;-</span> <span class="fu">ymd_hms</span><span class="op">(</span><span class="st">"2021-12-25,09:10:25"</span><span class="op">)</span>
+
+<span class="fu">year</span><span class="op">(</span><span class="va">date_time</span><span class="op">)</span></code></pre></div>
+<pre><code>## [1] 2021</code></pre>
+<div class="sourceCode" id="cb141"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">month</span><span class="op">(</span><span class="va">date_time</span><span class="op">)</span></code></pre></div>
+<pre><code>## [1] 12</code></pre>
+<div class="sourceCode" id="cb143"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">mday</span><span class="op">(</span><span class="va">date_time</span><span class="op">)</span></code></pre></div>
+<pre><code>## [1] 25</code></pre>
+<div class="sourceCode" id="cb145"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">yday</span><span class="op">(</span><span class="va">date_time</span><span class="op">)</span></code></pre></div>
+<pre><code>## [1] 359</code></pre>
+<p>For <code>month()</code> and <code>wday()</code>, you can set <code>label=TRUE</code> to return the abbreviated name of the month or day of the week. Set <code>abbr=FALSE</code> to return the full name.</p>
+<div class="sourceCode" id="cb147"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">month</span><span class="op">(</span><span class="va">date_time</span>,label<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
+<pre><code>## [1] Dec
+## 12 Levels: Jan &lt; Feb &lt; Mar &lt; Apr &lt; May &lt; Jun &lt; Jul &lt; Aug &lt; Sep &lt; ... &lt; Dec</code></pre>
+<div class="sourceCode" id="cb149"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">wday</span><span class="op">(</span><span class="va">date_time</span>,label<span class="op">=</span><span class="cn">TRUE</span>,abbr<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
+<pre><code>## [1] Saturday
+## 7 Levels: Sunday &lt; Monday &lt; Tuesday &lt; Wednesday &lt; Thursday &lt; ... &lt; Saturday</code></pre>
+<p>We can use <code>wday()</code> to see that more flights depart during the week than on the weekend</p>
+<div class="sourceCode" id="cb151"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">flights</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> 
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>wday <span class="op">=</span> <span class="fu">wday</span><span class="op">(</span><span class="va">departure_time</span>, label <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> 
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">wday</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html">geom_bar</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="bookdown-demo_files/figure-html/unnamed-chunk-76-1.png" width="672"></div>
+<div id="time-spans" class="section level3" number="5.2.1">
+<h3>
+<span class="header-section-number">5.2.1</span> Time Spans<a class="anchor" aria-label="anchor" href="#time-spans"><i class="fas fa-link"></i></a>
+</h3>
+<p>Now we will look at how arithmetic with dates works, including subtraction, addition and division. We will explore the following three classes:</p>
+<ul>
+<li>
+<em>durations</em>, which represent an exact number of seconds</li>
+<li>
+<em>periods</em>, which represent units like weeks and months</li>
+<li>
+<em>intervals</em>, which represent a start and end point</li>
+</ul>
+</div>
+<div id="durations" class="section level3" number="5.2.2">
+<h3>
+<span class="header-section-number">5.2.2</span> Durations<a class="anchor" aria-label="anchor" href="#durations"><i class="fas fa-link"></i></a>
+</h3>
+<p>We can find out the duration (given in seconds) using the <code>as.duration()</code> function as shown below</p>
+<div class="sourceCode" id="cb152"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># How old is Craig?</span>
+<span class="va">c_age</span> <span class="op">&lt;-</span> <span class="fu">today</span><span class="op">(</span><span class="op">)</span> <span class="op">-</span> <span class="fu">ymd</span><span class="op">(</span><span class="fl">19910502</span><span class="op">)</span>
+<span class="fu">as.duration</span><span class="op">(</span><span class="va">c_age</span><span class="op">)</span></code></pre></div>
+<pre><code>## [1] "987379200s (~31.29 years)"</code></pre>
+<p>Durations also come with some useful additional functions shown below</p>
+<div class="sourceCode" id="cb154"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">dseconds</span><span class="op">(</span><span class="fl">10</span><span class="op">)</span></code></pre></div>
+<pre><code>## [1] "10s"</code></pre>
+<div class="sourceCode" id="cb156"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">dminutes</span><span class="op">(</span><span class="fl">60</span><span class="op">)</span></code></pre></div>
+<pre><code>## [1] "3600s (~1 hours)"</code></pre>
+<div class="sourceCode" id="cb158"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">dhours</span><span class="op">(</span><span class="fl">30</span><span class="op">)</span></code></pre></div>
+<pre><code>## [1] "108000s (~1.25 days)"</code></pre>
+<div class="sourceCode" id="cb160"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">ddays</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">4</span>,<span class="fl">15</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<pre><code>## [1] "345600s (~4 days)"      "1296000s (~2.14 weeks)"</code></pre>
+<div class="sourceCode" id="cb162"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">dweeks</span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">)</span></code></pre></div>
+<pre><code>## [1] "604800s (~1 weeks)"  "1209600s (~2 weeks)" "1814400s (~3 weeks)"
+## [4] "2419200s (~4 weeks)"</code></pre>
+<div class="sourceCode" id="cb164"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">dyears</span><span class="op">(</span><span class="fl">2</span><span class="op">)</span></code></pre></div>
+<pre><code>## [1] "63115200s (~2 years)"</code></pre>
+<p>We can also add and multiply durations</p>
+<div class="sourceCode" id="cb166"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fl">3</span><span class="op">*</span><span class="fu">dmonths</span><span class="op">(</span><span class="fl">5</span><span class="op">)</span></code></pre></div>
+<pre><code>## [1] "39447000s (~1.25 years)"</code></pre>
+<div class="sourceCode" id="cb168"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">dyears</span><span class="op">(</span><span class="fl">3</span><span class="op">)</span> <span class="op">+</span> <span class="fu">dweeks</span><span class="op">(</span><span class="fl">14</span><span class="op">)</span> <span class="op">+</span><span class="fu">dhours</span><span class="op">(</span><span class="fl">6</span><span class="op">)</span></code></pre></div>
+<pre><code>## [1] "103161600s (~3.27 years)"</code></pre>
+</div>
+<div id="periods" class="section level3" number="5.2.3">
+<h3>
+<span class="header-section-number">5.2.3</span> Periods<a class="anchor" aria-label="anchor" href="#periods"><i class="fas fa-link"></i></a>
+</h3>
+<p>Periods are time spans, but don’t have a fixed length in seconds, and work more as “human” times, like days and weeks.</p>
+<div class="sourceCode" id="cb170"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">today</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu">days</span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></code></pre></div>
+<pre><code>## [1] "2022-08-16"</code></pre>
+<p>Like durations, periods can be constructed using well named constructor functions.</p>
+<div class="sourceCode" id="cb172"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">seconds</span><span class="op">(</span><span class="fl">15</span><span class="op">)</span></code></pre></div>
+<pre><code>## [1] "15S"</code></pre>
+<div class="sourceCode" id="cb174"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">minutes</span><span class="op">(</span><span class="fl">10</span><span class="op">)</span></code></pre></div>
+<pre><code>## [1] "10M 0S"</code></pre>
+<div class="sourceCode" id="cb176"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">hours</span><span class="op">(</span><span class="fl">30</span><span class="op">)</span></code></pre></div>
+<pre><code>## [1] "30H 0M 0S"</code></pre>
+<div class="sourceCode" id="cb178"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">days</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2</span>,<span class="fl">5</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<pre><code>## [1] "2d 0H 0M 0S" "5d 0H 0M 0S"</code></pre>
+<div class="sourceCode" id="cb180"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/weekday.POSIXt.html">months</a></span><span class="op">(</span><span class="fl">2</span><span class="op">:</span><span class="fl">5</span><span class="op">)</span></code></pre></div>
+<pre><code>## [1] "2m 0d 0H 0M 0S" "3m 0d 0H 0M 0S" "4m 0d 0H 0M 0S" "5m 0d 0H 0M 0S"</code></pre>
+<div class="sourceCode" id="cb182"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">weeks</span><span class="op">(</span><span class="fl">3</span><span class="op">)</span></code></pre></div>
+<pre><code>## [1] "21d 0H 0M 0S"</code></pre>
+<div class="sourceCode" id="cb184"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">years</span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></code></pre></div>
+<pre><code>## [1] "1y 0m 0d 0H 0M 0S"</code></pre>
+<p>Like durations, we can add and multiply periods</p>
+<div class="sourceCode" id="cb186"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fl">3</span><span class="op">*</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/weekday.POSIXt.html">months</a></span><span class="op">(</span><span class="fl">4</span><span class="op">)</span> <span class="op">+</span> <span class="fu">days</span><span class="op">(</span><span class="fl">12</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<pre><code>## [1] "12m 36d 0H 0M 0S"</code></pre>
+<div class="sourceCode" id="cb188"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">days</span><span class="op">(</span><span class="fl">25</span><span class="op">)</span> <span class="op">+</span> <span class="fu">hours</span><span class="op">(</span><span class="fl">16</span><span class="op">)</span> <span class="op">+</span> <span class="fu">minutes</span><span class="op">(</span><span class="fl">12</span><span class="op">)</span></code></pre></div>
+<pre><code>## [1] "25d 16H 12M 0S"</code></pre>
+</div>
+<div id="intervals" class="section level3" number="5.2.4">
+<h3>
+<span class="header-section-number">5.2.4</span> Intervals<a class="anchor" aria-label="anchor" href="#intervals"><i class="fas fa-link"></i></a>
+</h3>
+<p>An interval is a duration with a starting point, this makes it precise so you can determine exactly how long it is:</p>
+<div class="sourceCode" id="cb190"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">next_year</span> <span class="op">&lt;-</span> <span class="fu">today</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu">years</span><span class="op">(</span><span class="fl">1</span><span class="op">)</span>
+<span class="op">(</span><span class="fu">today</span><span class="op">(</span><span class="op">)</span> <span class="op">%--%</span> <span class="va">next_year</span><span class="op">)</span><span class="op">/</span><span class="fu">ddays</span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></code></pre></div>
+<pre><code>## [1] 365</code></pre>
+<p>To find out how many periods fall into an interval, you need to use integer division <code>%/%</code></p>
+
+</div>
+</div>
+</div>
+  <div class="chapter-nav">
+<div class="prev"><a href="creating-graphics-with-ggplot2.html"><span class="header-section-number">4</span> Creating Graphics with ggplot2</a></div>
+<div class="next"><a href="producing-maps-for-plotting.html"><span class="header-section-number">6</span> Producing maps for plotting</a></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#handling-date-time-data-with-lubridate"><span class="header-section-number">5</span> Handling date-time data with lubridate</a></li>
+<li>
+<a class="nav-link" href="#creating-datetimes"><span class="header-section-number">5.1</span> Creating date/times</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#from-strings"><span class="header-section-number">5.1.1</span> From strings</a></li>
+<li><a class="nav-link" href="#from-individual-components"><span class="header-section-number">5.1.2</span> From individual components</a></li>
+<li><a class="nav-link" href="#from-existing-types"><span class="header-section-number">5.1.3</span> From existing types</a></li>
+</ul>
+</li>
+<li>
+<a class="nav-link" href="#date-time-components"><span class="header-section-number">5.2</span> Date-time Components</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#time-spans"><span class="header-section-number">5.2.1</span> Time Spans</a></li>
+<li><a class="nav-link" href="#durations"><span class="header-section-number">5.2.2</span> Durations</a></li>
+<li><a class="nav-link" href="#periods"><span class="header-section-number">5.2.3</span> Periods</a></li>
+<li><a class="nav-link" href="#intervals"><span class="header-section-number">5.2.4</span> Intervals</a></li>
+</ul>
+</li>
+</ul>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+          
+        </ul>
+</div>
+    </nav>
+</div>
+
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>Visualising Data using R</strong>" was written by Craig Alexander, Eilidh Jack &amp; Marnie Low. </p>
+  </div>
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer><!-- dynamically load mathjax for compatibility with self-contained --><script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script><script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
+for (let popover of popovers) {
+  const div = document.createElement('div');
+  div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
+  div.innerHTML = popover.getAttribute('data-content');
+
+  var has_math = div.querySelector("span.math");
+  if (has_math) {
+    document.body.appendChild(div);
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, div]);
+    MathJax.Hub.Queue(function() {
+      popover.setAttribute('data-content', div.innerHTML);
+      document.body.removeChild(div);
+    })
+  }
+}
+</script>
+</body>
+</html>

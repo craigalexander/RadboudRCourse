@@ -1,0 +1,16 @@
+fig:nice-fig
+tab:nice-tab
+overview
+setting-up-r-and-rstudio
+downloading-and-installing-r-for-windows
+downloading-and-installing-r-for-mac
+rstudio
+installing-rstudio-for-windowsmac
+intro
+literature
+methods
+math-example
+applications
+example-one
+example-two
+final-words

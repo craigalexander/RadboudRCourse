@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Chapter 6 Producing maps for plotting | Visualising Data using R</title>
+<meta name="author" content="Craig Alexander, Eilidh Jack &amp; Marnie Low">
+<meta name="description" content="6.1 Producing maps using ggmap The R package ggmap can download maps from Google maps (or OpenStreetMap) which can then be used as a background layer in a ggplot2 plot. The function...">
+<meta name="generator" content="bookdown 0.25 with bs4_book()">
+<meta property="og:title" content="Chapter 6 Producing maps for plotting | Visualising Data using R">
+<meta property="og:type" content="book">
+<meta property="og:description" content="6.1 Producing maps using ggmap The R package ggmap can download maps from Google maps (or OpenStreetMap) which can then be used as a background layer in a ggplot2 plot. The function...">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Chapter 6 Producing maps for plotting | Visualising Data using R">
+<meta name="twitter:description" content="6.1 Producing maps using ggmap The R package ggmap can download maps from Google maps (or OpenStreetMap) which can then be used as a background layer in a ggplot2 plot. The function...">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.3.1/transition.js"></script><script src="libs/bs3compat-0.3.1/tabs.js"></script><script src="libs/bs3compat-0.3.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
+    
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  </style>
+</head>
+<body data-spy="scroll" data-target="#toc">
+
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="">Visualising Data using R</a>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
+    </div>
+
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+</form>
+
+      <nav aria-label="Table of contents"><h2>Table of contents</h2>
+        <ul class="book-toc list-unstyled">
+<li><a class="" href="index.html"><span class="header-section-number">1</span> Overview</a></li>
+<li><a class="" href="intro.html"><span class="header-section-number">2</span> Getting Started</a></li>
+<li><a class="" href="efficient-data-management-in-r.html"><span class="header-section-number">3</span> Efficient Data Management in R</a></li>
+<li><a class="" href="creating-graphics-with-ggplot2.html"><span class="header-section-number">4</span> Creating Graphics with ggplot2</a></li>
+<li><a class="" href="handling-date-time-data-with-lubridate.html"><span class="header-section-number">5</span> Handling date-time data with lubridate</a></li>
+<li><a class="active" href="producing-maps-for-plotting.html"><span class="header-section-number">6</span> Producing maps for plotting</a></li>
+</ul>
+
+        <div class="book-extra">
+          
+        </div>
+      </nav>
+</div>
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="producing-maps-for-plotting" class="section level1" number="6">
+<h1>
+<span class="header-section-number">6</span> Producing maps for plotting<a class="anchor" aria-label="anchor" href="#producing-maps-for-plotting"><i class="fas fa-link"></i></a>
+</h1>
+<div id="producing-maps-using-ggmap" class="section level2" number="6.1">
+<h2>
+<span class="header-section-number">6.1</span> Producing maps using ggmap<a class="anchor" aria-label="anchor" href="#producing-maps-using-ggmap"><i class="fas fa-link"></i></a>
+</h2>
+<p>The R package <code>ggmap</code> can download maps from Google maps (or OpenStreetMap) which can then be used as a background layer in a <code>ggplot2</code> plot.</p>
+<p>The function <code>get_map(location, zoom)</code> downloads a map. <code>location</code> can be a pair of longitude and latitude, a character string describing the location, or a bounding box. <code>zoom</code> controls the zoom level (from 3 (continent) to 21 (highest resolution)). The optional argument <code>maptype</code> can be used to select the type of map downloaded (for example <code>"roadmap"</code>, <code>"hybrid"</code> or <code>"satellite"</code> when using Google maps)</p>
+<p>Note that access to the Google API (for Google map tiles and for geolocation (translation of location description to GPS coordinates) requires a Google API key. When using a bounding box and <code>"stamen"</code> as <code>source</code>, no API key is required.</p>
+<div class="sourceCode" id="cb192"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/dkahle/ggmap">ggmap</a></span><span class="op">)</span>
+<span class="va">boundingbox</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>left <span class="op">=</span> <span class="fl">5.855</span>, bottom <span class="op">=</span> <span class="fl">51.817</span>, right <span class="op">=</span> <span class="fl">5.871</span>, top <span class="op">=</span> <span class="fl">51.826</span><span class="op">)</span>
+<span class="va">map</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ggmap/man/get_map.html">get_map</a></span><span class="op">(</span><span class="va">boundingbox</span>, zoom<span class="op">=</span><span class="fl">16</span>, source<span class="op">=</span><span class="st">"stamen"</span><span class="op">)</span></code></pre></div>
+<p>The map can the be plotted using <code>ggmap(map)</code>. Layers can be added to the map using the usual <code>ggplot2</code> commands.</p>
+<div class="sourceCode" id="cb193"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/ggmap/man/ggmap.html">ggmap</a></span><span class="op">(</span><span class="va">map</span><span class="op">)</span> <span class="op">+</span> 
+    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_text.html">geom_label</a></span><span class="op">(</span>x<span class="op">=</span><span class="fl">5.862</span>, y<span class="op">=</span><span class="fl">51.823</span>, label<span class="op">=</span><span class="st">"Radboud University"</span><span class="op">)</span> </code></pre></div>
+<div class="inline-figure"><img src="bookdown-demo_files/figure-html/unnamed-chunk-85-1.png" width="672"></div>
+<div id="task-8" class="section level3" number="6.1.1">
+<h3>
+<span class="header-section-number">6.1.1</span> Task<a class="anchor" aria-label="anchor" href="#task-8"><i class="fas fa-link"></i></a>
+</h3>
+<p>In this task, we will use data from two tibbles, <code>stations</code> and <code>trips</code>. These contain information on the list of bike stations of the Bay Area Bike Share system in the San Francisco Bay Area.</p>
+<p>You can download the data using the following command</p>
+<div class="sourceCode" id="cb194"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/load.html">load</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/connections.html">url</a></span><span class="op">(</span><span class="st">"https://github.com/UofGAnalyticsData/R/raw/main/Week%206/t3.RData"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<p>It has the following columns.</p>
+<div class="inline-table"><table class="table table-sm">
+<thead><tr class="header">
+<th>Column name</th>
+<th>Description</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td><code>station_id</code></td>
+<td>Numeric identifier of the station</td>
+</tr>
+<tr class="even">
+<td><code>name</code></td>
+<td>Name of the station</td>
+</tr>
+<tr class="odd">
+<td><code>lat</code></td>
+<td>Latitude of the station</td>
+</tr>
+<tr class="even">
+<td><code>long</code></td>
+<td>Longitude of the station</td>
+</tr>
+<tr class="odd">
+<td><code>dockcount</code></td>
+<td>Number of docks at the station</td>
+</tr>
+<tr class="even">
+<td><code>city</code></td>
+<td>City in which the station is located</td>
+</tr>
+</tbody>
+</table></div>
+<p>The tibble <code>trips</code> contains all trips made during August 2015. It has the following columns.</p>
+<div class="inline-table"><table class="table table-sm">
+<colgroup>
+<col width="28%">
+<col width="71%">
+</colgroup>
+<thead><tr class="header">
+<th>Column name</th>
+<th>Description</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td><code>trip_id</code></td>
+<td>Numeric identifier of the trip</td>
+</tr>
+<tr class="even">
+<td><code>trip_duration</code></td>
+<td>Duration of the trip in seconds</td>
+</tr>
+<tr class="odd">
+<td><code>day</code></td>
+<td>Day of the month the trip was started</td>
+</tr>
+<tr class="even">
+<td><code>hour</code></td>
+<td>Decimal hour when the strip was started</td>
+</tr>
+<tr class="odd">
+<td><code>start_station_id</code></td>
+<td>Numeric identifier of the station where the trip started</td>
+</tr>
+<tr class="even">
+<td><code>end_station_id</code></td>
+<td>Numeric identifier of the station where the trip ended</td>
+</tr>
+<tr class="odd">
+<td><code>bike_id</code></td>
+<td>Numeric identifier of the bike used</td>
+</tr>
+<tr class="even">
+<td><code>end_date</code></td>
+<td>Date and time the trip ended</td>
+</tr>
+<tr class="odd">
+<td><code>subscriber_type</code></td>
+<td>User type (“Subscriber” or “Customer”)</td>
+</tr>
+</tbody>
+</table></div>
+<ol style="list-style-type: lower-alpha">
+<li>Plot the locations of each of the bike stations. You can use the following bounding box below for your map</li>
+</ol>
+<div class="sourceCode" id="cb195"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">boundingbox</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>left <span class="op">=</span> <span class="op">-</span><span class="fl">122.5</span>, bottom <span class="op">=</span> <span class="fl">37.25</span>, right <span class="op">=</span> <span class="op">-</span><span class="fl">121.75</span>, top <span class="op">=</span> <span class="fl">38</span><span class="op">)</span></code></pre></div>
+<ol start="2" style="list-style-type: lower-alpha">
+<li>(Harder) For trips within the city of San Francisco, use the code below to create an origin-destination matrix. The <span class="math inline">\((i,j)\)</span>th entry contains the number of trips from station <span class="math inline">\(i\)</span> to station <span class="math inline">\(j\)</span>.</li>
+</ol>
+<p>Create a plot representing the number of trips between the stations. Use the line thickness or transparency to indicate the number of trips. You can use the following bounding box below for your map</p>
+<div class="sourceCode" id="cb196"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span>
+
+<span class="va">sf_stations</span> <span class="op">&lt;-</span> <span class="va">stations</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">city</span><span class="op">==</span><span class="st">"San Francisco"</span><span class="op">)</span> 
+
+<span class="va">od</span> <span class="op">&lt;-</span> <span class="va">trips</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+         <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">start_station_id</span><span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span><span class="va">sf_stations</span><span class="op">$</span><span class="va">station_id</span>,
+                <span class="va">end_station_id</span><span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span><span class="va">sf_stations</span><span class="op">$</span><span class="va">station_id</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+         <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">start_station_id</span>, <span class="va">end_station_id</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+         <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op">(</span>ntrips<span class="op">=</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html">n</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> </code></pre></div>
+<pre><code>## `summarise()` has grouped output by 'start_station_id'. You can override using
+## the `.groups` argument.</code></pre>
+<div class="sourceCode" id="cb198"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">odm</span> <span class="op">&lt;-</span> <span class="va">od</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+         <span class="fu"><a href="https://tidyr.tidyverse.org/reference/spread.html">spread</a></span><span class="op">(</span><span class="va">end_station_id</span>, <span class="va">ntrips</span>, fill<span class="op">=</span><span class="fl">0</span><span class="op">)</span> 
+
+<span class="va">odm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">as.matrix</a></span><span class="op">(</span><span class="va">od</span><span class="op">[</span>,<span class="op">-</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span>
+<span class="fu"><a href="https://tibble.tidyverse.org/reference/rownames.html">rownames</a></span><span class="op">(</span><span class="va">odm</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">od</span><span class="op">$</span><span class="va">start_station_id</span>
+
+<span class="va">od2</span> <span class="op">&lt;-</span> <span class="va">od</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> 
+    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">full_join</a></span><span class="op">(</span><span class="va">od</span>, by<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"start_station_id"</span><span class="op">=</span><span class="st">"end_station_id"</span>, <span class="st">"end_station_id"</span><span class="op">=</span>
+<span class="st">"start_station_id"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+    <span class="fu"><a href="https://tidyr.tidyverse.org/reference/replace_na.html">replace_na</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>ntrips.x<span class="op">=</span><span class="fl">0</span>, ntrips.y<span class="op">=</span><span class="fl">0</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>ntrips<span class="op">=</span><span class="va">ntrips.x</span><span class="op">+</span><span class="va">ntrips.y</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="op">-</span><span class="va">ntrips.x</span>, <span class="op">-</span><span class="va">ntrips.y</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">start_station_id</span><span class="op">&lt;</span><span class="va">end_station_id</span><span class="op">)</span>
+
+<span class="va">odall</span> <span class="op">&lt;-</span> 
+    <span class="va">od2</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> 
+    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">inner_join</a></span><span class="op">(</span><span class="va">sf_stations</span>, by<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"start_station_id"</span><span class="op">=</span><span class="st">"station_id"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">inner_join</a></span><span class="op">(</span><span class="va">sf_stations</span>, by<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"end_station_id"</span><span class="op">=</span><span class="st">"station_id"</span><span class="op">)</span>, suffix<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">""</span>,<span class="st">"_end"</span><span class="op">)</span><span class="op">)</span>
+
+
+<span class="va">boundingbox</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>left <span class="op">=</span> <span class="op">-</span><span class="fl">122.43</span>, bottom <span class="op">=</span> <span class="fl">37.76</span>, right <span class="op">=</span> <span class="op">-</span><span class="fl">122.38</span>, top <span class="op">=</span> <span class="fl">37.81</span><span class="op">)</span></code></pre></div>
+</div>
+<div id="answer-7" class="section level3" number="6.1.2">
+<h3>
+<span class="header-section-number">6.1.2</span> Answer<a class="anchor" aria-label="anchor" href="#answer-7"><i class="fas fa-link"></i></a>
+</h3>
+<p>For part (a) we can use the following code.</p>
+<div class="sourceCode" id="cb199"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">boundingbox</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>left <span class="op">=</span> <span class="op">-</span><span class="fl">122.5</span>, bottom <span class="op">=</span> <span class="fl">37.25</span>, right <span class="op">=</span> <span class="op">-</span><span class="fl">121.75</span>, top <span class="op">=</span> <span class="fl">38</span><span class="op">)</span>
+
+<span class="va">map</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ggmap/man/get_map.html">get_map</a></span><span class="op">(</span><span class="va">boundingbox</span>, zoom<span class="op">=</span><span class="fl">9</span>, source<span class="op">=</span><span class="st">"stamen"</span><span class="op">)</span>
+
+<span class="fu"><a href="https://rdrr.io/pkg/ggmap/man/ggmap.html">ggmap</a></span><span class="op">(</span><span class="va">map</span><span class="op">)</span> <span class="op">+</span> 
+    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span>data<span class="op">=</span><span class="va">stations</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">long</span>, y<span class="op">=</span><span class="va">lat</span>,  colour<span class="op">=</span><span class="va">city</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">xlab</a></span><span class="op">(</span><span class="st">"Longitude"</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ylab</a></span><span class="op">(</span><span class="st">"Latitude"</span><span class="op">)</span> <span class="op">+</span> 
+    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span><span class="op">(</span><span class="st">"Bicycle stations in the San Francisco Bay Area"</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="bookdown-demo_files/figure-html/unnamed-chunk-89-1.png" width="672"></div>
+<p>For part (b) we can use the following code.</p>
+<div class="sourceCode" id="cb200"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://magrittr.tidyverse.org">magrittr</a></span><span class="op">)</span>
+<span class="va">boundingbox</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>left <span class="op">=</span> <span class="op">-</span><span class="fl">122.43</span>, bottom <span class="op">=</span> <span class="fl">37.76</span>, right <span class="op">=</span> <span class="op">-</span><span class="fl">122.38</span>, top <span class="op">=</span> <span class="fl">37.81</span><span class="op">)</span>
+<span class="va">map</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ggmap/man/get_map.html">get_map</a></span><span class="op">(</span><span class="va">boundingbox</span>, zoom<span class="op">=</span><span class="fl">13</span>, source<span class="op">=</span><span class="st">"stamen"</span><span class="op">)</span>
+
+
+
+<span class="fu"><a href="https://rdrr.io/pkg/ggmap/man/ggmap.html">ggmap</a></span><span class="op">(</span><span class="va">map</span><span class="op">)</span> <span class="op">+</span> 
+    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span>data<span class="op">=</span><span class="va">sf_stations</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">long</span>, <span class="va">lat</span>, size<span class="op">=</span><span class="va">dockcount</span><span class="op">)</span>, col<span class="op">=</span><span class="st">"orange"</span><span class="op">)</span> <span class="op">+</span>
+    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_segment.html">geom_segment</a></span><span class="op">(</span>data<span class="op">=</span><span class="va">odall</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">long</span>, <span class="va">lat</span>, xend<span class="op">=</span><span class="va">long_end</span>, yend<span class="op">=</span><span class="va">lat_end</span>, alpha<span class="op">=</span><span class="va">ntrips</span><span class="op">)</span>, col<span class="op">=</span><span class="st">"orange"</span><span class="op">)</span><span class="op">+</span>
+    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">xlab</a></span><span class="op">(</span><span class="st">"Longitude"</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ylab</a></span><span class="op">(</span><span class="st">"Latitude"</span><span class="op">)</span> <span class="op">+</span> 
+    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span><span class="op">(</span><span class="st">"Bicycle trips in San Francisco"</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="bookdown-demo_files/figure-html/unnamed-chunk-90-1.png" width="672"></div>
+</div>
+<div id="producing-maps-using-leaflet" class="section level3" number="6.1.3">
+<h3>
+<span class="header-section-number">6.1.3</span> Producing maps using leaflet<a class="anchor" aria-label="anchor" href="#producing-maps-using-leaflet"><i class="fas fa-link"></i></a>
+</h3>
+<p>Maps plotted using <code>ggmap</code> cannot be panned and zoomed in and out like maps on Google Maps or OpenStreetMap. The package <code>leaflet</code> allows for this. It works somewhat the other way round than <code>ggmap</code>: rather than downloading the map and integrating it into an R plot it overlays the data over the map interface.</p>
+<p>The following command puts a marker where Radboud University is located.</p>
+<div class="sourceCode" id="cb201"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://rstudio.github.io/leaflet/">leaflet</a></span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/pkg/leaflet/man/leaflet.html">leaflet</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/leaflet/man/leaflet-imports.html">%&gt;%</a></span>
+   <span class="fu"><a href="https://rdrr.io/pkg/leaflet/man/map-layers.html">addTiles</a></span><span class="op">(</span>urlTemplate <span class="op">=</span> <span class="st">"http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/leaflet/man/leaflet-imports.html">%&gt;%</a></span> 
+   <span class="fu"><a href="https://rdrr.io/pkg/leaflet/man/map-layers.html">addMarkers</a></span><span class="op">(</span>lng<span class="op">=</span><span class="fl">5.862</span>, lat<span class="op">=</span><span class="fl">51.823</span>, popup<span class="op">=</span><span class="st">"Radboud University"</span><span class="op">)</span></code></pre></div>
+<p>The argument <code>urlTemplate</code> is only required when opening the file locally.</p>
+<div class="figure">
+<img src="leaflet1.png" alt=""><p class="caption">Leaflet map showing Radboud University</p>
+</div>
+<p>Lines can be added to the map using the function <code>addPolylines</code>.</p>
+<p>The data frame <code>subway</code> contains the GPS coordinates of all subway stations in Glasgow. You can produce a map of the Glasgow subway network using the following code. (You should have access to this data frame from the previous download).</p>
+<div class="sourceCode" id="cb202"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">subway2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">rbind</a></span><span class="op">(</span><span class="va">subway</span>, <span class="va">subway</span><span class="op">[</span><span class="fl">1</span>,<span class="op">]</span><span class="op">)</span>     <span class="co"># Make sure line goes back to Hillhead</span>
+<span class="fu"><a href="https://rdrr.io/pkg/leaflet/man/leaflet.html">leaflet</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/leaflet/man/leaflet-imports.html">%&gt;%</a></span>   
+   <span class="fu"><a href="https://rdrr.io/pkg/leaflet/man/map-layers.html">addTiles</a></span><span class="op">(</span>urlTemplate <span class="op">=</span> <span class="st">"http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/leaflet/man/leaflet-imports.html">%&gt;%</a></span> 
+   <span class="fu"><a href="https://rdrr.io/pkg/leaflet/man/map-layers.html">addMarkers</a></span><span class="op">(</span>lng<span class="op">=</span><span class="op">-</span><span class="fl">4.2885</span>, lat<span class="op">=</span><span class="fl">55.8715</span>, popup<span class="op">=</span><span class="st">"The University of Glasgow"</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/leaflet/man/leaflet-imports.html">%&gt;%</a></span>
+   <span class="fu"><a href="https://rdrr.io/pkg/leaflet/man/map-layers.html">addPolylines</a></span><span class="op">(</span><span class="va">subway2</span><span class="op">$</span><span class="va">long</span>, <span class="va">subway2</span><span class="op">$</span><span class="va">lat</span>, color<span class="op">=</span><span class="st">"#ff6200"</span>, opacity<span class="op">=</span><span class="fl">0.5</span>, weight<span class="op">=</span><span class="fl">10</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/leaflet/man/leaflet-imports.html">%&gt;%</a></span> 
+   <span class="fu"><a href="https://rdrr.io/pkg/leaflet/man/map-layers.html">addCircleMarkers</a></span><span class="op">(</span><span class="va">subway</span><span class="op">$</span><span class="va">long</span>, <span class="va">subway</span><span class="op">$</span><span class="va">lat</span>, popup<span class="op">=</span><span class="va">subway</span><span class="op">$</span><span class="va">station</span>, color<span class="op">=</span><span class="st">"#ff6200"</span>, 
+                    opacity<span class="op">=</span><span class="fl">1</span>, fillColor<span class="op">=</span><span class="st">"#4d4f53"</span>, fillOpacity<span class="op">=</span><span class="fl">1</span><span class="op">)</span> </code></pre></div>
+<div class="figure">
+<img src="leaflet2.png" alt=""><p class="caption">Leaflet map showing the Glasgow Subway</p>
+</div>
+
+</div>
+</div>
+</div>
+  <div class="chapter-nav">
+<div class="prev"><a href="handling-date-time-data-with-lubridate.html"><span class="header-section-number">5</span> Handling date-time data with lubridate</a></div>
+<div class="empty"></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#producing-maps-for-plotting"><span class="header-section-number">6</span> Producing maps for plotting</a></li>
+<li>
+<a class="nav-link" href="#producing-maps-using-ggmap"><span class="header-section-number">6.1</span> Producing maps using ggmap</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#task-8"><span class="header-section-number">6.1.1</span> Task</a></li>
+<li><a class="nav-link" href="#answer-7"><span class="header-section-number">6.1.2</span> Answer</a></li>
+<li><a class="nav-link" href="#producing-maps-using-leaflet"><span class="header-section-number">6.1.3</span> Producing maps using leaflet</a></li>
+</ul>
+</li>
+</ul>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+          
+        </ul>
+</div>
+    </nav>
+</div>
+
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>Visualising Data using R</strong>" was written by Craig Alexander, Eilidh Jack &amp; Marnie Low. </p>
+  </div>
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer><!-- dynamically load mathjax for compatibility with self-contained --><script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script><script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
+for (let popover of popovers) {
+  const div = document.createElement('div');
+  div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
+  div.innerHTML = popover.getAttribute('data-content');
+
+  var has_math = div.querySelector("span.math");
+  if (has_math) {
+    document.body.appendChild(div);
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, div]);
+    MathJax.Hub.Queue(function() {
+      popover.setAttribute('data-content', div.innerHTML);
+      document.body.removeChild(div);
+    })
+  }
+}
+</script>
+</body>
+</html>
